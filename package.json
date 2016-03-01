@@ -1,5 +1,5 @@
 {
-  "name": "react-linkify",
+  "name": "react-linkifier",
   "version": "1.0.0",
   "description": "Finds links in text and converts them to <a> elements",
   "main": "index.js",

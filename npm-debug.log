@@ -1,0 +1,113 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@3.3.12
+3 info using node@v5.1.1
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/pladaria/projects/react-linkifier',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/pladaria/.npm/react-linkify/1.0.0/package.tgz not in flight; packing
+9 info lifecycle react-linkify@1.0.0~prepublish: react-linkify@1.0.0
+10 verbose lifecycle react-linkify@1.0.0~prepublish: unsafe-perm in lifecycle true
+11 verbose lifecycle react-linkify@1.0.0~prepublish: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/pladaria/projects/react-linkifier/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+12 verbose lifecycle react-linkify@1.0.0~prepublish: CWD: /Users/pladaria/projects/react-linkifier
+13 silly lifecycle react-linkify@1.0.0~prepublish: Args: [ '-c', 'npm run build' ]
+14 silly lifecycle react-linkify@1.0.0~prepublish: Returned: code: 0  signal: null
+15 verbose tar pack [ '/Users/pladaria/.npm/react-linkify/1.0.0/package.tgz',
+15 verbose tar pack   '/Users/pladaria/projects/react-linkifier' ]
+16 verbose tarball /Users/pladaria/.npm/react-linkify/1.0.0/package.tgz
+17 verbose folder /Users/pladaria/projects/react-linkifier
+18 verbose addLocalTarball adding from inside cache /Users/pladaria/.npm/react-linkify/1.0.0/package.tgz
+19 silly cache afterAdd react-linkify@1.0.0
+20 verbose afterAdd /Users/pladaria/.npm/react-linkify/1.0.0/package/package.json not in flight; writing
+21 verbose afterAdd /Users/pladaria/.npm/react-linkify/1.0.0/package/package.json written
+22 silly publish { name: 'react-linkify',
+22 silly publish   version: '1.0.0',
+22 silly publish   description: 'Finds links in text and converts them to <a> elements',
+22 silly publish   main: 'index.js',
+22 silly publish   scripts:
+22 silly publish    { test: 'node test/test.js',
+22 silly publish      clean: 'rimraf dist',
+22 silly publish      build: 'npm run clean && webpack && webpack --config webpack.config.min.js',
+22 silly publish      prepublish: 'npm run build' },
+22 silly publish   keywords:
+22 silly publish    [ 'react',
+22 silly publish      'links',
+22 silly publish      'anchor',
+22 silly publish      'linkify',
+22 silly publish      'url',
+22 silly publish      'anchor',
+22 silly publish      'conversor',
+22 silly publish      'parser' ],
+22 silly publish   author: { name: 'Pedro Ladaria', email: 'pedro.ladaria@gmail.com' },
+22 silly publish   license: 'MIT',
+22 silly publish   dependencies: { react: '^0.14.7' },
+22 silly publish   devDependencies: { rimraf: '^2.5.2', tape: '^4.4.0', webpack: '^1.12.14' },
+22 silly publish   directories: { test: 'test' },
+22 silly publish   repository:
+22 silly publish    { type: 'git',
+22 silly publish      url: 'git+https://github.com/pladaria/react-linkifier.git' },
+22 silly publish   bugs: { url: 'https://github.com/pladaria/react-linkifier/issues' },
+22 silly publish   homepage: 'https://github.com/pladaria/react-linkifier#readme',
+22 silly publish   readme: '# react-linkifier\n\nTiny React library to extract URLs from a string and convert them to clickable links.\nIt will return an array of React components (anchors for links and spans por regular text).\n\n- Very small (~600 bytes minified and gzipped)\n- Works great for complex URLs and handles many corner cases\n- Allows custom props to be applied to &lt;a&gt; elements\n- No dangerouslySetInnerHTML\n- Automatically prepends http:// if the URL has no scheme\n\n## Install\n\n```javascript\nnpm install --save react-linkifier\n```\n\n## Run tests\n\n```javascript\n// clone repo and then\nnpm install && npm test\n```\n\n## Basic usage\n\n```javascript\nimport linkifier from \'react-linkifier\';\n\nconst myComponent = () => (\n    <div>\n        {linkifier(\'check this http://www.domain.com!\')}\n    </div>\n);\n```\n\n## Advanced usage\n\n```javascript\nimport linkifier from \'react-linkifier\';\n\nconst text = \'check this http://www.domain.com!\';\n\nconst myComponent = () => (\n    <div>\n        {linkifier(text, {target: \'_blank\', key: \'k\', className: \'link\'})}\n    </div>\n);\n```\n\n## License\n\nMIT\n',
+22 silly publish   readmeFilename: 'README.md',
+22 silly publish   gitHead: 'df4c33a010d625e55d5021ac9524de9f4efa8a06',
+22 silly publish   _id: 'react-linkify@1.0.0',
+22 silly publish   _shasum: '465ee3502d32637308fa797d507a1c728a344e53',
+22 silly publish   _from: '.' }
+23 verbose getPublishConfig undefined
+24 silly mapToRegistry name react-linkify
+25 silly mapToRegistry using default registry
+26 silly mapToRegistry registry https://registry.npmjs.org/
+27 silly mapToRegistry uri https://registry.npmjs.org/react-linkify
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /Users/pladaria/.npm/react-linkify/1.0.0/package.tgz
+30 verbose request uri https://registry.npmjs.org/react-linkify
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 16:24:24
+33 verbose request using bearer token for auth
+34 verbose request id b77674d3a081205e
+35 http request PUT https://registry.npmjs.org/react-linkify
+36 http 403 https://registry.npmjs.org/react-linkify
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '105',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Tue, 01 Mar 2016 15:24:25 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-lhr6323-LHR',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1456845865.357476,VS0,VE531' }
+38 verbose request invalidating /Users/pladaria/.npm/registry.npmjs.org/react-linkify on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: You do not have permission to publish 'react-linkify'. Are you logged in as the correct user? : react-linkify
+40 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+40 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+40 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:198:22)
+40 verbose stack     at emitTwo (events.js:87:13)
+40 verbose stack     at Request.emit (events.js:172:7)
+40 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+40 verbose stack     at emitOne (events.js:82:20)
+40 verbose stack     at Request.emit (events.js:169:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+41 verbose statusCode 403
+42 verbose pkgid react-linkify
+43 verbose cwd /Users/pladaria/projects/react-linkifier
+44 error Darwin 15.3.0
+45 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+46 error node v5.1.1
+47 error npm  v3.3.12
+48 error code E403
+49 error You do not have permission to publish 'react-linkify'. Are you logged in as the correct user? : react-linkify
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]
