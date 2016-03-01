@@ -1,0 +1,32 @@
+{
+  "name": "react-linkify",
+  "version": "1.0.0",
+  "description": "Finds links in text and converts them to <a> elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js",
+    "clean": "rimraf dist",
+    "build": "npm run clean && webpack && webpack --config webpack.config.min.js",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "links",
+    "anchor",
+    "linkify",
+    "url",
+    "anchor",
+    "conversor",
+    "parser"
+  ],
+  "author": "Pedro Ladaria <pedro.ladaria@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^0.14.7"
+  },
+  "devDependencies": {
+    "rimraf": "^2.5.2",
+    "tape": "^4.4.0",
+    "webpack": "^1.12.14"
+  }
+}
