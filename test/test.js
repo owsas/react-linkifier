@@ -1,5 +1,5 @@
 var test = require('tape');
-var linkifier = require('../src/index.js');
+var linkifier = require('../src/linkifier.js');
 
 test('linkifier happy case', function (t) {
     var url = 'http://www.domain.com/path/to/resource?key1=val%201&key2=val2';
