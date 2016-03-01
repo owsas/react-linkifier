@@ -28,5 +28,16 @@
     "rimraf": "^2.5.2",
     "tape": "^4.4.0",
     "webpack": "^1.12.14"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pladaria/react-linkifier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pladaria/react-linkifier/issues"
+  },
+  "homepage": "https://github.com/pladaria/react-linkifier#readme"
 }
