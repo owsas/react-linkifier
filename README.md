@@ -5,17 +5,22 @@ It will return an array of React components (anchors for links and spans por reg
 
 - Very small (~600 bytes minified and gzipped)
 - Works great for complex URLs and handles many corner cases
-- Allows custom props
+- Allows custom props to be applied to &lt;a&gt; elements
 - No dangerouslySetInnerHTML
 - Automatically prepends http:// if the URL has no scheme
 
 ## Install
 
-    npm install --save react-linkifier
+```javascript
+npm install --save react-linkifier
+```
 
 ## Run tests
 
-    npm install && npm test
+```javascript
+// clone repo and then
+npm install && npm test
+```
 
 ## Basic usage
 
