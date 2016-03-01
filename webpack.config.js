@@ -1,6 +1,6 @@
 module.exports = {
     context: __dirname,
-    entry: './src/index.js',
+    entry: './src/linkifier.js',
     externals: {
         react: true
     },
