@@ -1,11 +1,16 @@
 var React = require('react');
-var RE_URL_VALIDATION = require('./regexp-url-validation.js');
+var RE_CAPTURE_URLS = require('./regexp-capture-urls.js');
+var RE_EMAIL_CHECK = require('./regexp-email-check.js');
+var RE_HAS_SCHEME = /^\w+:/i;
 
 var defaultScheme = 'http://';
 var defaultKeyBase = 'linkifier';
 
 var addSchemeIfNeeded = function (url) {
-    if ((/^\w+:/i).test(url)) {
+    if (RE_EMAIL_CHECK.test(url)) {
+        return 'mailto:' + url;
+    }
+    if (RE_HAS_SCHEME.test(url)) {
         return url;
     }
     return defaultScheme + url;
@@ -14,7 +19,7 @@ var addSchemeIfNeeded = function (url) {
 var linkifier = function (text, props) {
     var props = props || {};
     var result = [];
-    var parts = text.split(RE_URL_VALIDATION);
+    var parts = text.split(RE_CAPTURE_URLS);
     var keyIndex = 0;
     var keyBase = (props.key) || defaultKeyBase;
     parts.forEach(function (text) {
@@ -24,7 +29,7 @@ var linkifier = function (text, props) {
         keyIndex++;
         var combinedProps = props;
         var key = keyBase + '-' + keyIndex;
-        if (RE_URL_VALIDATION.test(text)) {
+        if (RE_CAPTURE_URLS.test(text)) {
             combinedProps.href = addSchemeIfNeeded(text);
             combinedProps.key = key;
             result.push(React.createElement('a', combinedProps, text));

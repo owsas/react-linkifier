@@ -125,3 +125,28 @@ test('linkifier with custom key', function (t) {
     t.deepEqual(result[1].props, {children: text});
     t.end();
 });
+
+test('linkifier mail happy case', function (t) {
+    var email = 'mailto:foo@bar.com';
+    var result = linkifier(email);
+
+    t.equal(result.length, 1);
+
+    t.equal(result[0].type, 'a');
+    t.equal(result[0].key, 'linkifier-1');
+    t.deepEqual(result[0].props, {href: email, children: email});
+    t.end();
+});
+
+test('linkifier mail without scheme', function (t) {
+    var email = 'foo@bar.com';
+    var expectedHref = 'mailto:' + email;
+    var result = linkifier(email);
+
+    t.equal(result.length, 1);
+
+    t.equal(result[0].type, 'a');
+    t.equal(result[0].key, 'linkifier-1');
+    t.deepEqual(result[0].props, {href: expectedHref, children: email});
+    t.end();
+});

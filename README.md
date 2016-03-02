@@ -3,11 +3,11 @@
 Tiny React library to extract URLs from a string and convert them to clickable links.
 It will return an array of React components (anchors for links and spans por regular text).
 
-- Very small (~600 bytes minified and gzipped)
+- Very small (~700 bytes minified and gzipped)
 - Works great for complex URLs and handles many corner cases
 - Allows custom props to be applied to &lt;a&gt; elements
 - No dangerouslySetInnerHTML
-- Automatically prepends http:// if the URL has no scheme
+- Automatically prepends `http://` to the href (or `mailto:` for emails)
 
 ## Install
 
