@@ -1,4 +1,4 @@
-# react-linkifier [![Build Status](https://img.shields.io/travis/pladaria/react-linkifier.svg?branch=master)](https://travis-ci.org/pladaria/react-linkifier)
+# react-linkifier [![Build Status](https://travis-ci.org/pladaria/react-linkifier.svg)](https://travis-ci.org/pladaria/react-linkifier)
 
 Tiny React library to extract URLs from a string and convert them to clickable links.
 It will return an array of React components (anchors for links and spans por regular text).
