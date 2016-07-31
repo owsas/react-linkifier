@@ -2,12 +2,20 @@ module.exports = {
     context: __dirname,
     entry: './src/linkifier.js',
     externals: {
-        react: true
+        react: true,
     },
     output: {
         path: __dirname + '/dist',
         filename: 'linkifier.js',
         library: 'linkifier',
-        libraryTarget: 'umd'
-    }
+        libraryTarget: 'umd',
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel',
+            },
+        ],
+    },
 };

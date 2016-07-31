@@ -26,7 +26,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = new RegExp(
+export default new RegExp(
   '\\b(' +
     // protocol identifier
     '(?:\\w+:/*)?' +
