@@ -25,9 +25,13 @@
     "react": "^0.14.7"
   },
   "devDependencies": {
-    "rimraf": "^2.5.2",
-    "tape": "^4.4.0",
-    "webpack": "^1.12.14"
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "react": "^0.14.8",
+    "rimraf": "^2.5.4",
+    "tape": "^4.6.0",
+    "webpack": "^1.13.1"
   },
   "directories": {
     "test": "test"
