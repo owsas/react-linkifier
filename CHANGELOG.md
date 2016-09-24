@@ -1,3 +1,7 @@
+# c.2.1.0
+
+- `wrap` prop for Linkifier component
+
 # v.2.0.0
 
 - Improved Linkifier component
