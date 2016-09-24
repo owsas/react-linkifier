@@ -1,6 +1,6 @@
-const test = require('tape');
-const linkifier = require('../dist/linkifier').linkifier;
-const Linkifier = require('../dist/linkifier').default;
+const test = require('ava');
+const linkifier = require('../src/linkifier').linkifier;
+const Linkifier = require('../src/linkifier').default;
 const React = require('react');
 const ReactDomServer = require('react-dom/server');
 
@@ -9,11 +9,10 @@ test('linkifier happy case', t => {
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier with custom props', t => {
@@ -22,11 +21,10 @@ test('linkifier with custom props', t => {
     const expectedProps = Object.assign({href: url, children: url}, props);
     const result = linkifier(url, props);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier without scheme adds http:// to href', t => {
@@ -34,11 +32,10 @@ test('linkifier without scheme adds http:// to href', t => {
     const expectedProps = {href: 'http://' + url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier without slashes after scheme', t => {
@@ -46,11 +43,10 @@ test('linkifier without slashes after scheme', t => {
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier with one slash after scheme', t => {
@@ -58,11 +54,10 @@ test('linkifier with one slash after scheme', t => {
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier with any number of slashes after scheme', t => {
@@ -70,11 +65,10 @@ test('linkifier with any number of slashes after scheme', t => {
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier with url in query', t => {
@@ -82,11 +76,10 @@ test('linkifier with url in query', t => {
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
-    t.equal(result.length, 1);
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result.length, 1);
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-    t.end();
 });
 
 test('linkifier skips leading or trailing symbol', t => {
@@ -97,18 +90,17 @@ test('linkifier skips leading or trailing symbol', t => {
         const expectedProps = {href: url, children: url};
         const result = linkifier(text);
 
-        t.equal(result.length, 3);
-        t.equal(result[0].type, 'span');
-        t.equal(result[1].type, 'a');
-        t.equal(result[2].type, 'span');
+        t.is(result.length, 3);
+        t.is(result[0].type, 'span');
+        t.is(result[1].type, 'a');
+        t.is(result[2].type, 'span');
 
-        t.equal(result[0].key, 'linkifier-1');
-        t.equal(result[1].key, 'linkifier-2');
-        t.equal(result[2].key, 'linkifier-3');
+        t.is(result[0].key, 'linkifier-1');
+        t.is(result[1].key, 'linkifier-2');
+        t.is(result[2].key, 'linkifier-3');
 
         t.deepEqual(result[1].props, expectedProps);
     });
-    t.end();
 });
 
 test('linkifier with custom key', t => {
@@ -117,28 +109,26 @@ test('linkifier with custom key', t => {
     const input = url + text;
     const result = linkifier(input, {key: 'foo'});
 
-    t.equal(result.length, 2);
+    t.is(result.length, 2);
 
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'foo-1');
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'foo-1');
     t.deepEqual(result[0].props, {href: url, children: url});
 
-    t.equal(result[1].type, 'span');
-    t.equal(result[1].key, 'foo-2');
+    t.is(result[1].type, 'span');
+    t.is(result[1].key, 'foo-2');
     t.deepEqual(result[1].props, {children: text});
-    t.end();
 });
 
 test('linkifier mail happy case', t => {
     const email = 'mailto:foo@bar.com';
     const result = linkifier(email);
 
-    t.equal(result.length, 1);
+    t.is(result.length, 1);
 
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, {href: email, children: email});
-    t.end();
 });
 
 test('linkifier mail without scheme', t => {
@@ -146,52 +136,63 @@ test('linkifier mail without scheme', t => {
     const expectedHref = 'mailto:' + email;
     const result = linkifier(email);
 
-    t.equal(result.length, 1);
+    t.is(result.length, 1);
 
-    t.equal(result[0].type, 'a');
-    t.equal(result[0].key, 'linkifier-1');
+    t.is(result[0].type, 'a');
+    t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, {href: expectedHref, children: email});
-    t.end();
 });
 
-test.only('Linkifier component', t => {
-    const element = React.createElement(
-        Linkifier,
-        null,
-        React.createElement(
-            "div",
-            null,
-            "foo@bar.baz",
-            React.createElement(
-                "a",
-                {href: "url"},
-                "www.ignored.com"
-            ),
-            React.createElement(
-                "button",
-                null,
-                "www.ignored.com"
-            ),
-            React.createElement(
-                "ul",
-                null,
-                React.createElement(
-                    "li",
-                    null,
-                    "foo.bar"
-                ),
-                React.createElement(
-                    "li",
-                    null,
-                    React.createElement(
-                        "div",
-                        null,
-                        "http://www.foo.bar"
-                    )
-                )
-            )
-        )
-    );
-    console.log(ReactDomServer.renderToStaticMarkup(element));
-    t.end();
+test('jsx: simple text', t => {
+    const element = <Linkifier>http://my.site.org</Linkifier>;
+    const expected = '<span><a href="http://my.site.org">http://my.site.org</a></span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('jsx: styles and props are propagated', t => {
+    const element =
+        <Linkifier target="_blank" style={{display: 'block'}} id="0" className="1" otherProp="2" keyBase="3">
+            http://my.site.org
+        </Linkifier>;
+    const expected =
+        '<span style="display:block;" id="0" class="1">' +
+            '<a target="_blank" href="http://my.site.org">http://my.site.org</a>' +
+        '</span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('jsx: text inside <button> is not converted', t => {
+    const element = <Linkifier><button>http://my.site.org</button></Linkifier>;
+    const expected = '<span><button>http://my.site.org</button></span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('jsx: text inside <a> is not converted', t => {
+    const element = <Linkifier><a href="http://my.site.org">http://my.site.org</a></Linkifier>;
+    const expected = '<span><a href=\"http://my.site.org\">http://my.site.org</a></span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('jsx: various children', t => {
+    const element =
+        <Linkifier>
+            <a href="http://my.site.org">http://my.site.org</a>
+            {null}
+            <span>pedro@ladaria.eu</span>
+            {[<div key="1"/>, <span key="2"/>]}
+            foo.bar
+        </Linkifier>;
+    const expected =
+        '<span>' +
+            '<a href=\"http://my.site.org\">http://my.site.org</a>' +
+            '<span><a href=\"mailto:pedro@ladaria.eu\">pedro@ladaria.eu</a></span>' +
+            '<div></div><span></span>' +
+            '<a href="http://foo.bar">foo.bar</a>' +
+        '</span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
 });
