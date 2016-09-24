@@ -4,9 +4,9 @@ Tiny React library to extract URLs from a string and convert them to clickable l
 It will return an array of React components (anchors for links and spans por regular text).
 
 - Very small (~1KB minified and gzipped)
-- Works great for complex URLs and handles many corner cases
+- Use it as function or component
+- Works great with complex URLs and handles many corner cases
 - Allows custom props to be applied to &lt;a&gt; elements
-- No dangerouslySetInnerHTML
 - Automatically prepends `http://` to the href (or `mailto:` for emails)
 
 ## Install
@@ -15,31 +15,53 @@ It will return an array of React components (anchors for links and spans por reg
 npm install --save react-linkifier
 ```
 
-## Run tests
-
-```javascript
-// clone repo and then
-npm install && npm test
-```
-
 ## Basic usage
 
+### As component
+
 ```javascript
-import linkifier from 'react-linkifier';
+import Linkifier from 'react-linkifier';
+
+const myComponent = () => (
+    <Linkifier>
+        check this: www.domain.com
+    </Linkifier>
+);
+```
+
+### As function
+
+```javascript
+import {linkifier} from 'react-linkifier';
 
 const myComponent = () => (
     <div>
-        {linkifier('check this http://www.domain.com!')}
+        {linkifier('check this: www.domain.com')}
     </div>
 );
 ```
 
 ## Advanced usage
 
-```javascript
-import linkifier from 'react-linkifier';
+### As component
 
-const text = 'check this http://www.domain.com!';
+```javascript
+import Linkifier from 'react-linkifier';
+
+const myComponent = () => (
+    <Linkifier target="_blank">
+        {check this: www.domain.com}
+        <strong>send me a message: peter@domain.com</strong>
+    </Linkifier>
+);
+```
+
+### As function
+
+```javascript
+import {linkifier} from 'react-linkifier';
+
+const text = 'check this www.domain.com!';
 
 const myComponent = () => (
     <div>
