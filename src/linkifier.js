@@ -68,8 +68,8 @@ const Linkifier = React.createClass({
 
     render() {
         this.keyIndex = 0;
-        const {children, target, keyBase, ...props} = this.props;
-        return React.createElement('span', props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase}));
+        const {children, target, keyBase, wrap = 'span', ...props} = this.props;
+        return React.createElement(wrap, props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase}));
     },
 })
 
