@@ -71,10 +71,10 @@ const myComponent = () => (
 
 // Render result:
 // <div class="some-text">
-//    <span>check this: </span><a target=\"_blank\" href=\"http://www.domain.com\">www.domain.com</a>
+//    <span>check this: </span><a target="_blank" href="http://www.domain.com">www.domain.com</a>
 //    <strong>
 //        <span>send me a message: </span>
-//        <a target=\"_blank\" href=\"mailto:peter@domain.com\">peter@domain.com</a>
+//        <a target="_blank" href="mailto:peter@domain.com">peter@domain.com</a>
 //     </strong>
 // </div>
 
@@ -96,7 +96,7 @@ const myComponent = () => (
 // Render result:
 // <div>
 //     <span>check this: </span>
-//     <a target=\"_blank\" class=\"link\" href=\"http://www.domain.com\">www.domain.com</a>
+//     <a target="_blank" class="link" href="http://www.domain.com">www.domain.com</a>
 // </div>
 ```
 
