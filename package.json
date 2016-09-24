@@ -4,9 +4,10 @@
   "description": "Finds links in text and converts them to <a> elements",
   "main": "dist/linkifier.js",
   "scripts": {
-    "test": "node test/test.js",
+    "test": "nyc ava --verbose test/test.js",
+    "report": "nyc report --reporter=html && opn coverage/index.html",
     "clean": "rimraf dist",
-    "build": "npm run clean && webpack && webpack --config webpack.config.min.js",
+    "build": "babel src --out-dir dist",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -17,21 +18,27 @@
     "url",
     "anchor",
     "conversor",
-    "parser"
+    "parser",
+    "clickable",
+    "text"
   ],
   "author": "Pedro Ladaria <pedro.ladaria@gmail.com>",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "babel-core": "^6.11.4",
-    "babel-loader": "^6.2.4",
+    "ava": "^0.16.0",
+    "babel-cli": "^6.14.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
-    "rimraf": "^2.5.4",
-    "tape": "^4.6.0",
-    "webpack": "^1.13.1"
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-es2015": "^6.14.0",
+    "nyc": "^8.3.0",
+    "opn-cli": "^3.1.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "rimraf": "^2.5.4"
+  },
+  "peerDependencies": {
+    "react": "^14 || ^15.3.0"
   },
   "directories": {
     "test": "test"
@@ -42,6 +49,12 @@
   },
   "bugs": {
     "url": "https://github.com/pladaria/react-linkifier/issues"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   },
   "homepage": "https://github.com/pladaria/react-linkifier#readme"
 }
