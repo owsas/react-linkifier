@@ -1,6 +1,6 @@
 {
   "name": "react-linkifier",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Finds links in text and converts them to <a> elements",
   "main": "dist/linkifier.js",
   "scripts": {
