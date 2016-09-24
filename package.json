@@ -56,5 +56,8 @@
     ],
     "babel": "inherit"
   },
-  "homepage": "https://github.com/pladaria/react-linkifier#readme"
+  "homepage": "https://github.com/pladaria/react-linkifier#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
 }
