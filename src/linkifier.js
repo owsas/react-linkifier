@@ -1,3 +1,8 @@
+/*!
+ * Linkifier Component
+ * Copyright 2016 Pedro Ladaria <pedro.ladaria@gmail.com>
+ * License: MIT
+ */
 const React = require('react');
 const RE_CAPTURE_URLS = require('./regexp-capture-urls.js');
 const RE_EMAIL_CHECK = require('./regexp-email-check.js');
