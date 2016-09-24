@@ -8,7 +8,7 @@
     "report": "nyc report --reporter=html && opn coverage/index.html",
     "clean": "rimraf dist",
     "build": "babel src --out-dir dist",
-    "prepublish": "npm run build"
+    "prepublish": "npm test && npm run build"
   },
   "keywords": [
     "react",
