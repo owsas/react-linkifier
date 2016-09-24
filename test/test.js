@@ -13,6 +13,7 @@ test('linkifier happy case', t => {
     t.is(result[0].type, 'a');
     t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
+
 });
 
 test('linkifier with custom props', t => {
@@ -143,13 +144,6 @@ test('linkifier mail without scheme', t => {
     t.deepEqual(result[0].props, {href: expectedHref, children: email});
 });
 
-test('jsx: simple text', t => {
-    const element = <Linkifier>http://my.site.org</Linkifier>;
-    const expected = '<span><a href="http://my.site.org">http://my.site.org</a></span>';
-    const result = ReactDomServer.renderToStaticMarkup(element);
-    t.is(result, expected);
-});
-
 test('jsx: styles and props are propagated', t => {
     const element =
         <Linkifier target="_blank" style={{display: 'block'}} id="0" className="1" otherProp="2" keyBase="3">
@@ -194,5 +188,50 @@ test('jsx: various children', t => {
             '<a href="http://foo.bar">foo.bar</a>' +
         '</span>';
     const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('README example - Component Simple', t => {
+    const element = <Linkifier>check this: www.domain.com</Linkifier>;
+    const expected = '<span><span>check this: </span><a href="http://www.domain.com">www.domain.com</a></span>';
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    t.is(result, expected);
+});
+
+test('README example - Component Advanced', t => {
+    const element =
+        <Linkifier target="_blank" wrap="div" className="some-text">
+            {'check this: www.domain.com'}
+            <strong>send me a message: peter@domain.com</strong>
+        </Linkifier>
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    const expected =
+        '<div class="some-text">' +
+            '<span>check this: </span><a target=\"_blank\" href=\"http://www.domain.com\">www.domain.com</a>' +
+            '<strong>' +
+                '<span>send me a message: </span>' +
+                '<a target=\"_blank\" href=\"mailto:peter@domain.com\">peter@domain.com</a>' +
+            '</strong>' +
+        '</div>';
+    t.is(result, expected);
+});
+
+test('README example - Function Simple', t => {
+    const result = ReactDomServer.renderToStaticMarkup(<div>{linkifier('check this: www.domain.com')}</div>);
+    const expected = '<div><span>check this: </span><a href="http://www.domain.com">www.domain.com</a></div>';
+    t.is(result, expected);
+});
+
+test('README example - Function Advanced', t => {
+    const result = ReactDomServer.renderToStaticMarkup(
+        <div>
+            {linkifier('check this www.domain.com', {target: '_blank', className: 'link'})}
+        </div>
+    );
+    const expected =
+        '<div>' +
+            '<span>check this </span>' +
+            '<a target=\"_blank\" class=\"link\" href=\"http://www.domain.com\">www.domain.com</a>' +
+        '</div>';
     t.is(result, expected);
 });
