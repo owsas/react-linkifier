@@ -1,7 +1,7 @@
 /**
  * Naive checking
  */
-export default new RegExp(
+module.exports = new RegExp(
     '^' +
     '([a-z\\u00a1-\\uffff0-9\\-\\.\\+])+' +
     '@' +

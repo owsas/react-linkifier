@@ -1,6 +1,6 @@
-import React from 'react';
-import RE_CAPTURE_URLS from './regexp-capture-urls.js';
-import RE_EMAIL_CHECK from './regexp-email-check.js';
+const React = require('react');
+const RE_CAPTURE_URLS = require('./regexp-capture-urls.js');
+const RE_EMAIL_CHECK = require('./regexp-email-check.js');
 
 const RE_HAS_SCHEME = /^\w+:/i;
 const defaultScheme = 'http://';
@@ -45,30 +45,31 @@ const Linkifier = React.createClass({
 
     keyIndex: 0,
 
-    linkify(children) {
+    linkify(children, {target, key}) {
+        const keyBase = key || defaultKeyBase;
         if (typeof children === 'string') {
-            return linkifier(children);
+            return linkifier(children, {target, key});
         }
-        if (IGNORED_TYPES[children.type]) {
+        if (Array.isArray(children)) {
+            return children.map(child => this.linkify(child, {target, key}));
+        }
+        if (children && IGNORED_TYPES[children.type]) {
             return children;
         }
         if (React.isValidElement(children)) {
             return React.cloneElement(
                 children,
-                {key: defaultKeyBase + '-' + (++this.keyIndex)},
-                this.linkify(children.props.children)
+                {key: keyBase + '-' + (++this.keyIndex)},
+                this.linkify(children.props.children, {target, key})
             );
-        }
-        if (children instanceof Array) {
-            return children.map(this.linkify);
         }
         return null;
     },
 
     render() {
         this.keyIndex = 0;
-        const {children, ...props} = this.props;
-        return React.createElement('span', props, ...this.linkify(React.Children.toArray(children)));
+        const {children, target, keyBase, ...props} = this.props;
+        return React.createElement('span', props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase}));
     },
 })
 
