@@ -27,6 +27,11 @@ const myComponent = () => (
         check this: www.domain.com
     </Linkifier>
 );
+
+// Render result:
+// <span>
+//    <span>check this: </span><a href="http://www.domain.com">www.domain.com</a>
+// </span>
 ```
 
 ### As function
@@ -39,21 +44,40 @@ const myComponent = () => (
         {linkifier('check this: www.domain.com')}
     </div>
 );
+
+// Render result:
+// <div>
+//     <span>check this: </span><a href="http://www.domain.com">www.domain.com</a>
+// </div>
 ```
 
 ## Advanced usage
 
 ### As component
 
+By default the Linkifier component wraps the children with a `span` element, you can override this using the `wrap` prop.
+
+The class name is assigned to the wrapper.
+
 ```javascript
 import Linkifier from 'react-linkifier';
 
 const myComponent = () => (
-    <Linkifier target="_blank">
-        {check this: www.domain.com}
+    <Linkifier target="_blank" wrap="div" className="some-text">
+        {'check this: www.domain.com'}
         <strong>send me a message: peter@domain.com</strong>
     </Linkifier>
 );
+
+// Render result:
+// <div class="some-text">
+//    <span>check this: </span><a target=\"_blank\" href=\"http://www.domain.com\">www.domain.com</a>
+//    <strong>
+//        <span>send me a message: </span>
+//        <a target=\"_blank\" href=\"mailto:peter@domain.com\">peter@domain.com</a>
+//     </strong>
+// </div>
+
 ```
 
 ### As function
@@ -61,13 +85,19 @@ const myComponent = () => (
 ```javascript
 import {linkifier} from 'react-linkifier';
 
-const text = 'check this www.domain.com!';
+const text = 'check this: www.domain.com';
 
 const myComponent = () => (
     <div>
         {linkifier(text, {target: '_blank', key: 'k', className: 'link'})}
     </div>
 );
+
+// Render result:
+// <div>
+//     <span>check this: </span>
+//     <a target=\"_blank\" class=\"link\" href=\"http://www.domain.com\">www.domain.com</a>
+// </div>
 ```
 
 ## License
