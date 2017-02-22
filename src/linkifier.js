@@ -21,7 +21,7 @@ const addSchemeIfNeeded = (url) => {
     return defaultScheme + url;
 };
 
-export const linkifier = (text, props = {}) => {
+export const linkifier = (text, props = {}, renderer = 'a') => {
     const result = [];
     const parts = text.split(RE_CAPTURE_URLS);
     let keyIndex = 0;
@@ -36,7 +36,7 @@ export const linkifier = (text, props = {}) => {
         if (RE_CAPTURE_URLS.test(part)) {
             combinedProps.href = addSchemeIfNeeded(part);
             combinedProps.key = key;
-            result.push(React.createElement('a', combinedProps, part));
+            result.push(React.createElement(renderer, combinedProps, part));
         } else {
             result.push(React.createElement('span', {key: key}, part));
         }
@@ -53,7 +53,7 @@ const Linkifier = React.createClass({
     linkify(children, {target, key}) {
         const keyBase = key || defaultKeyBase;
         if (typeof children === 'string') {
-            return linkifier(children, {target, key});
+            return linkifier(children, {target, key}, this.props.renderer);
         }
         if (Array.isArray(children)) {
             return children.map(child => this.linkify(child, {target, key}));
@@ -73,7 +73,7 @@ const Linkifier = React.createClass({
 
     render() {
         this.keyIndex = 0;
-        const {children, target, keyBase, wrap = 'span', ...props} = this.props;
+        const {children, target, keyBase, wrap = 'span', renderer, ...props} = this.props;
         return React.createElement(wrap, props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase}));
     },
 })

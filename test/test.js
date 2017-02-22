@@ -216,6 +216,30 @@ test('README example - Component Advanced', t => {
     t.is(result, expected);
 });
 
+test('README example - Component with custom renderer', t => {
+    const RedLink = ({href, children}) => (
+        <a href={href} style={{color: 'red'}}>
+            {children}
+        </a>
+    );
+
+    const element =
+        <Linkifier renderer={RedLink}>
+            {'check this: www.domain.com'}
+            <strong>send me a message: peter@domain.com</strong>
+        </Linkifier>
+    const result = ReactDomServer.renderToStaticMarkup(element);
+    const expected =
+        '<span>' +
+            '<span>check this: </span><a href=\"http://www.domain.com\" style="color:red;">www.domain.com</a>' +
+            '<strong>' +
+                '<span>send me a message: </span>' +
+                '<a href=\"mailto:peter@domain.com\" style="color:red;">peter@domain.com</a>' +
+            '</strong>' +
+        '</span>';
+    t.is(result, expected);
+});
+
 test('README example - Function Simple', t => {
     const result = ReactDomServer.renderToStaticMarkup(<div>{linkifier('check this: www.domain.com')}</div>);
     const expected = '<div><span>check this: </span><a href="http://www.domain.com">www.domain.com</a></div>';
@@ -232,6 +256,26 @@ test('README example - Function Advanced', t => {
         '<div>' +
             '<span>check this </span>' +
             '<a target=\"_blank\" class=\"link\" href=\"http://www.domain.com\">www.domain.com</a>' +
+        '</div>';
+    t.is(result, expected);
+});
+
+test('README example - Function with custom renderer', t => {
+    const RedLink = ({href, children}) => (
+        <a href={href} style={{color: 'red'}}>
+            {children}
+        </a>
+    );
+
+    const result = ReactDomServer.renderToStaticMarkup(
+        <div>
+            {linkifier('check this www.domain.com', {}, RedLink)}
+        </div>
+    );
+    const expected =
+        '<div>' +
+            '<span>check this </span>' +
+            '<a href=\"http://www.domain.com\" style="color:red;">www.domain.com</a>' +
         '</div>';
     t.is(result, expected);
 });

@@ -22,7 +22,7 @@ npm install --save react-linkifier
 ```javascript
 import Linkifier from 'react-linkifier';
 
-const myComponent = () => (
+const MyComponent = () => (
     <Linkifier>
         check this: www.domain.com
     </Linkifier>
@@ -39,7 +39,7 @@ const myComponent = () => (
 ```javascript
 import {linkifier} from 'react-linkifier';
 
-const myComponent = () => (
+const MyComponent = () => (
     <div>
         {linkifier('check this: www.domain.com')}
     </div>
@@ -62,7 +62,7 @@ The class name is assigned to the wrapper.
 ```javascript
 import Linkifier from 'react-linkifier';
 
-const myComponent = () => (
+const MyComponent = () => (
     <Linkifier target="_blank" wrap="div" className="some-text">
         {'check this: www.domain.com'}
         <strong>send me a message: peter@domain.com</strong>
@@ -79,6 +79,35 @@ const myComponent = () => (
 // </div>
 ```
 
+#### With custom renderer
+If you want to change the way ``<Linkifier />`` renders links, for example when you want to use a custom component instead of ``<a>``, you can use the ``renderer`` prop:
+
+```javascript
+import Linkifier from 'react-linkifier';
+
+const RedLink = ({href, children}) => (
+    <a href={href} style={{color: 'red'}}>
+        {children}
+    </a>
+);
+
+const MyComponent = () => (
+    <Linkifier renderer={RedLink}>
+        {'check this: www.domain.com'}
+        <strong>send me a message: peter@domain.com</strong>
+    </Linkifier>
+);
+
+// Render result:
+// <span>
+//     <span>check this: </span><a href="http://www.domain.com" style="color:red;">www.domain.com</a>
+//     <strong>
+//         <span>send me a message: </span>
+//         <a href="mailto:peter@domain.com" style="color:red;">peter@domain.com</a>
+//     </strong>
+// </div>
+```
+
 ### As function
 
 ```javascript
@@ -86,7 +115,7 @@ import {linkifier} from 'react-linkifier';
 
 const text = 'check this: www.domain.com';
 
-const myComponent = () => (
+const MyComponent = () => (
     <div>
         {linkifier(text, {target: '_blank', key: 'k', className: 'link'})}
     </div>
@@ -96,6 +125,33 @@ const myComponent = () => (
 // <div>
 //     <span>check this: </span>
 //     <a target="_blank" class="link" href="http://www.domain.com">www.domain.com</a>
+// </div>
+```
+
+#### With custom renderer
+When using ``linkifier`` as a function you can also pass a custom renderer:
+
+```javascript
+import {linkifier} from 'react-linkifier';
+
+const RedLink = ({href, children}) => (
+    <a href={href} style={{color: 'red'}}>
+        {children}
+    </a>
+);
+
+const text = 'check this: www.domain.com';
+
+const MyComponent = () => (
+    <div>
+        {linkifier(text, {}, RedLink)}
+    </div>
+);
+
+// Render result:
+// <div>
+//     <span>check this: </span>
+//     <a href="http://www.domain.com" style="color:red;">www.domain.com</a>
 // </div>
 ```
 
