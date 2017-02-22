@@ -150,3 +150,16 @@ test('linkifier mail without scheme', function (t) {
     t.deepEqual(result[0].props, {href: expectedHref, children: email});
     t.end();
 });
+
+test('linkifier foo', function (t) {
+    var text = 'bla https://regexper.com/#%2F(%5E%7C%5Cs)(%3B%5C))(%5Cs%7C%24)%2F bla';
+    var expectedHref = 'https://regexper.com/#%2F(%5E%7C%5Cs)(%3B%5C))(%5Cs%7C%24)%2F';
+    var result = linkifier(text);
+
+    t.equal(result.length, 3);
+
+    t.equal(result[1].type, 'a');
+    t.equal(result[1].key, 'linkifier-2');
+    t.deepEqual(result[1].props, {href: expectedHref, children: expectedHref});
+    t.end();
+});
