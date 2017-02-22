@@ -1,12 +1,17 @@
-var React = require('react');
-var RE_CAPTURE_URLS = require('./regexp-capture-urls.js');
-var RE_EMAIL_CHECK = require('./regexp-email-check.js');
-var RE_HAS_SCHEME = /^\w+:/i;
+/*!
+ * Linkifier Component
+ * Copyright 2016 Pedro Ladaria <pedro.ladaria@gmail.com>
+ * License: MIT
+ */
+const React = require('react');
+const RE_CAPTURE_URLS = require('./regexp-capture-urls.js');
+const RE_EMAIL_CHECK = require('./regexp-email-check.js');
 
-var defaultScheme = 'http://';
-var defaultKeyBase = 'linkifier';
+const RE_HAS_SCHEME = /^\w+:/i;
+const defaultScheme = 'http://';
+const defaultKeyBase = 'linkifier';
 
-var addSchemeIfNeeded = function (url) {
+const addSchemeIfNeeded = (url) => {
     if (RE_EMAIL_CHECK.test(url)) {
         return 'mailto:' + url;
     }
@@ -16,28 +21,61 @@ var addSchemeIfNeeded = function (url) {
     return defaultScheme + url;
 };
 
-var linkifier = function (text, props) {
-    var props = props || {};
-    var result = [];
-    var parts = text.split(RE_CAPTURE_URLS);
-    var keyIndex = 0;
-    var keyBase = (props.key) || defaultKeyBase;
-    parts.forEach(function (text) {
-        if (!text) {
+export const linkifier = (text, props = {}, renderer = 'a') => {
+    const result = [];
+    const parts = text.split(RE_CAPTURE_URLS);
+    let keyIndex = 0;
+    const keyBase = props.key || defaultKeyBase;
+    parts.forEach((part) => {
+        if (!part) {
             return;
         }
         keyIndex++;
-        var combinedProps = props;
-        var key = keyBase + '-' + keyIndex;
-        if (RE_CAPTURE_URLS.test(text)) {
-            combinedProps.href = addSchemeIfNeeded(text);
+        const combinedProps = {...props};
+        const key = keyBase + '-' + keyIndex;
+        if (RE_CAPTURE_URLS.test(part)) {
+            combinedProps.href = addSchemeIfNeeded(part);
             combinedProps.key = key;
-            result.push(React.createElement('a', combinedProps, text));
+            result.push(React.createElement(renderer, combinedProps, part));
         } else {
-            result.push(React.createElement('span', {key: key}, text));
+            result.push(React.createElement('span', {key: key}, part));
         }
     });
     return result;
 };
 
-module.exports = linkifier;
+const IGNORED_TYPES = {'a': 1, 'button': 1};
+
+const Linkifier = React.createClass({
+
+    keyIndex: 0,
+
+    linkify(children, {target, key}) {
+        const keyBase = key || defaultKeyBase;
+        if (typeof children === 'string') {
+            return linkifier(children, {target, key}, this.props.renderer);
+        }
+        if (Array.isArray(children)) {
+            return children.map(child => this.linkify(child, {target, key}));
+        }
+        if (children && IGNORED_TYPES[children.type]) {
+            return children;
+        }
+        if (React.isValidElement(children)) {
+            return React.cloneElement(
+                children,
+                {key: keyBase + '-' + (++this.keyIndex)},
+                this.linkify(children.props.children, {target, key})
+            );
+        }
+        return null;
+    },
+
+    render() {
+        this.keyIndex = 0;
+        const {children, target, keyBase, wrap = 'span', renderer, ...props} = this.props;
+        return React.createElement(wrap, props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase}));
+    },
+})
+
+export default Linkifier;
