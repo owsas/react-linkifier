@@ -1,7 +1,7 @@
+const React = require('react');
 const test = require('ava');
 const linkifier = require('../src/linkifier').linkifier;
 const Linkifier = require('../src/linkifier').default;
-const React = require('react');
 const ReactDomServer = require('react-dom/server');
 
 test('linkifier happy case', t => {
@@ -13,7 +13,6 @@ test('linkifier happy case', t => {
     t.is(result[0].type, 'a');
     t.is(result[0].key, 'linkifier-1');
     t.deepEqual(result[0].props, expectedProps);
-
 });
 
 test('linkifier with custom props', t => {
@@ -279,4 +278,3 @@ test('README example - Function with custom renderer', t => {
         '</div>';
     t.is(result, expected);
 });
-
