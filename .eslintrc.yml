@@ -9,3 +9,6 @@ parserOptions:
   sourceType: module
   ecmaFeatures:
     jsx: true
+    experimentalObjectRestSpread: true
+rules:
+  react/prop-types: off

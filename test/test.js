@@ -1,42 +1,105 @@
-const React = require('react');
 const test = require('ava');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
+
 const linkifier = require('../src/linkifier').linkifier;
 const Linkifier = require('../src/linkifier').default;
-const ReactDomServer = require('react-dom/server');
+const split = require('../src/linkifier').split;
 
-test('linkifier happy case', t => {
-    const url = 'http://www.domain.com/path/to/resource?key1=val%201&key2=val2';
-    const expectedProps = {href: url, children: url};
-    const result = linkifier(url);
+test('split strings', t => {
 
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
+    const cases = [
+        ['example.org', ['example.org']],
+        ['https://www.example.org', ['https://www.example.org']],
+        ['(https://www.example.org)', ['(', 'https://www.example.org', ')']],
+        ['([https://www.example.org])', ['([', 'https://www.example.org', '])']],
+        ['([_<https://www.example.org>_])', ['([_<', 'https://www.example.org', '>_])']],
+        ['~https://www.example.org~', ['~', 'https://www.example.org', '~']],
+        ['a\n\tb\tc\rd \t\r\ne', ['a', '\n\t', 'b', '\t', 'c', '\r', 'd', ' \t\r\n', 'e']],
+    ];
+
+    cases.forEach(([input, expected]) => {
+        t.deepEqual(split(input), expected);
+    });
+
 });
 
-test('linkifier with custom props', t => {
-    const url = 'http://www.domain.com';
-    const props = {target: '_blank', className: 'my-class'};
-    const expectedProps = Object.assign({href: url, children: url}, props);
-    const result = linkifier(url, props);
+test('linkifier function', t => {
 
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
+    const cases = [
+        [
+            'Happy case',
+            'http://www.domain.com/path/to/res?key1=val%201&key2=val2',
+            undefined,
+            '<div><a href="http://www.domain.com/path/to/res?key1=val%201&amp;key2=val2">http://www.domain.com/path/to/res?key1=val%201&amp;key2=val2</a></div>',
+        ],
+        [
+            'Between braces',
+            '<([https://example.org])>',
+            undefined,
+            '<div><span>&lt;([</span><a href="https://example.org">https://example.org</a><span>])&gt;</span></div>',
+        ],
+        [
+            'Custom props',
+            'https://example.org',
+            {target: '_blank', className: 'my-class'},
+            '<div><a target="_blank" class="my-class" href="https://example.org">https://example.org</a></div>',
+        ],
+        [
+            'Protocol is automatically added',
+            'example.org',
+            undefined,
+            '<div><a href="http://example.org">example.org</a></div>',
+        ],
+        [
+            'Email',
+            'name@example.org',
+            undefined,
+            '<div><a href=\"mailto:name@example.org\">name@example.org</a></div>',
+        ],
+        [
+            'No slashes after protocol',
+            'http:www.example.org',
+            undefined,
+            '<div><span>http:www.example.org</span></div>',
+        ],
+        [
+            'Unneeded slashes after protocol',
+            'http:///www.example.org',
+            undefined,
+            '<div><a href=\"http:///www.example.org\">http:///www.example.org</a></div>',
+        ],
+        [
+            'IP',
+            'ftp://123.234.1.99/path?var=val',
+            undefined,
+            '<div><a href=\"ftp://123.234.1.99/path?var=val\">ftp://123.234.1.99/path?var=val</a></div>',
+        ],
+        [
+            'Url in query',
+            'https://example.org?url=https://example.org',
+            undefined,
+            '<div><a href=\"https://example.org?url=https://example.org\">https://example.org?url=https://example.org</a></div>',
+        ],
+        [
+            'Trailing slash',
+            'https://example.org/',
+            undefined,
+            '<div><a href=\"https://example.org/">https://example.org/</a></div>',
+        ],
+    ];
+
+    cases.forEach(([description, input, props, expected]) => {
+        t.deepEqual(
+            ReactDOMServer.renderToStaticMarkup(<div>{linkifier(input, props)}</div>),
+            expected,
+            description
+        );
+    });
+
 });
-
-test('linkifier without scheme adds http:// to href', t => {
-    const url = 'domain.com';
-    const expectedProps = {href: 'http://' + url, children: url};
-    const result = linkifier(url);
-
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
-});
+/*
+//'Anchors are left intact'
 
 test('linkifier without slashes after scheme', t => {
     const url = 'http:www.domain.com';
@@ -51,17 +114,6 @@ test('linkifier without slashes after scheme', t => {
 
 test('linkifier with one slash after scheme', t => {
     const url = 'http:/www.domain.com';
-    const expectedProps = {href: url, children: url};
-    const result = linkifier(url);
-
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
-});
-
-test('linkifier with any number of slashes after scheme', t => {
-    const url = 'http://///////www.domain.com';
     const expectedProps = {href: url, children: url};
     const result = linkifier(url);
 
@@ -278,3 +330,4 @@ test('README example - Function with custom renderer', t => {
         '</div>';
     t.is(result, expected);
 });
+*/
