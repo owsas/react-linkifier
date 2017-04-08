@@ -44,6 +44,7 @@ test('linkifier function', t => {
             'https://example.org',
             {target: '_blank', className: 'my-class'},
             '<div><a target="_blank" class="my-class" href="https://example.org">https://example.org</a></div>',
+            '<div class="my-class"><a target="_blank" href="https://example.org">https://example.org</a></div>',
         ],
         [
             'Protocol is automatically added',
@@ -97,31 +98,18 @@ test('linkifier function', t => {
         );
     });
 
+    cases.forEach(([description, input, props, expected, expectedAsComponent]) => {
+        expectedAsComponent = expectedAsComponent || expected;
+        t.deepEqual(
+            ReactDOMServer.renderToStaticMarkup(<Linkifier wrap="div" {...props}>{input}</Linkifier>),
+            expectedAsComponent,
+            description
+        );
+    });
+
 });
 /*
 //'Anchors are left intact'
-
-test('linkifier without slashes after scheme', t => {
-    const url = 'http:www.domain.com';
-    const expectedProps = {href: url, children: url};
-    const result = linkifier(url);
-
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
-});
-
-test('linkifier with one slash after scheme', t => {
-    const url = 'http:/www.domain.com';
-    const expectedProps = {href: url, children: url};
-    const result = linkifier(url);
-
-    t.is(result.length, 1);
-    t.is(result[0].type, 'a');
-    t.is(result[0].key, 'linkifier-1');
-    t.deepEqual(result[0].props, expectedProps);
-});
 
 test('linkifier with url in query', t => {
     const url = 'http://www.domain.com/?url=http://www.domain.com';
