@@ -6,6 +6,8 @@ const linkifier = require('../src/linkifier').linkifier;
 const Linkifier = require('../src/linkifier').default;
 const split = require('../src/linkifier').split;
 
+const RedLink = ({href, children}) => <a href={href} style={{color: 'red'}}>{children}</a>;
+
 test('split strings', t => {
 
     const cases = [
@@ -62,6 +64,12 @@ test('linkifier function', t => {
             'example.org',
             {protocol: 'ftp'},
             '<div><a href="ftp://example.org">example.org</a></div>',
+        ],
+        [
+            'Custom renderer',
+            'example.org',
+            {renderer: RedLink},
+            '<div><a href=\"http://example.org\" style=\"color:red;\">example.org</a></div>',
         ],
         [
             'Email',
@@ -124,8 +132,6 @@ test('linkifier function', t => {
 });
 
 test('Linkifier component', t => {
-
-    const RedLink = ({href, children}) => <a href={href} style={{color: 'red'}}>{children}</a>;
 
     const cases = [
         [
