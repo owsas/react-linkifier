@@ -3,7 +3,7 @@
 Tiny React library to extract URLs from a string and convert them to clickable links.
 It will return an array of React components (anchors for links and spans por regular text).
 
-- Very small (~1KB minified and gzipped)
+- Very small (~2KB minified and gzipped)
 - Use it as function or component
 - Works great with complex URLs and handles many corner cases
 - Allows custom props to be applied to &lt;a&gt; elements
