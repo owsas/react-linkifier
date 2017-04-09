@@ -8,26 +8,29 @@ const RE_URL = require('./regexp-url.js');
 const RE_EMAIL = require('./regexp-email.js');
 const RE_HAS_SCHEME = /^\w+:/i;
 
-const defaultScheme = 'http://';
-const defaultKeyBase = 'l';
+const DEFAULT_PROTOCOL = 'http';
 
-const addSchemeIfNeeded = (url) => {
+const getKey = n => 'l' + n;
+
+const addProtocolIfNeeded = (url, protocol = DEFAULT_PROTOCOL) => {
     if (RE_EMAIL.test(url)) {
         return 'mailto:' + url;
     }
     if (RE_HAS_SCHEME.test(url)) {
         return url;
     }
-    return defaultScheme + url;
+    return protocol + '://' + url;
 };
 
-const braces = '() [] {} <> ¿? ¡! «» “” ** __ ~~'.split(' ');
+const braces = '() [] {} <> ¿? ¡! «» “” ** __ ~~ "" \'\' ``'.split(' ');
+
+const RE_SPLIT = /(\s+|[.,;:]\s|[.,;:]$)/;
 
 export const split = s => {
 
     const result = [];
 
-    s.split(/(\s+)/).forEach(part => {
+    s.split(RE_SPLIT).forEach(part => {
         if (!part) {
             return;
         }
@@ -41,19 +44,21 @@ export const split = s => {
         const open = [];
         const close = [];
 
-        sorry:
         while (length > (1 + depth) * 2) {
             const s = part[depth];
             const e = part[length - depth - 1];
-            for (let i = 0; i < braces.length; i++) {
+            let i;
+            for (i = 0; i < braces.length; i++) {
                 if (s === braces[i][0] && e === braces[i][1]) {
                     open.push(braces[i][0]);
                     close.push(braces[i][1]);
                     depth++;
-                    continue sorry;
+                    break;
                 }
             }
-            break;
+            if (i >= braces.length) {
+                break;
+            }
         }
 
         if (depth) {
@@ -66,26 +71,32 @@ export const split = s => {
     return result;
 };
 
-export const linkifier = (text, props = {}, renderer = 'a') => {
+export const linkifier = (text, {renderer = 'a', protocol, ...props} = {}) => {
     const result = [];
     const parts = split(text);
-    let keyIndex = 0;
-    const keyBase = props.key || defaultKeyBase;
+    let acc = [];
+    let key = 0;
+    const pushAccumulated = () => {
+        if (acc.length) {
+            result.push(React.createElement('span', {key: getKey(key++)}, acc.join('')));
+        }
+        acc = [];
+    }
+
     parts.forEach((part) => {
         if (!part) {
             return;
         }
-        keyIndex++;
-        const combinedProps = {...props};
-        const key = keyBase + '-' + keyIndex;
         if (RE_URL.test(part)) {
-            combinedProps.href = addSchemeIfNeeded(part);
-            combinedProps.key = key;
-            result.push(React.createElement(renderer, combinedProps, part));
+            pushAccumulated();
+            props.href = addProtocolIfNeeded(part, protocol);
+            props.key = getKey(key++);
+            result.push(React.createElement(renderer, props, part));
         } else {
-            result.push(React.createElement('span', {key: key}, part));
+            acc.push(part);
         }
     });
+    pushAccumulated();
     return result;
 };
 
@@ -98,31 +109,38 @@ class Linkifier extends React.Component {
         this.keyIndex = 0;
     }
 
-    linkify(children, {target, key, renderer}) {
-        const keyBase = key || defaultKeyBase;
-        if (typeof children === 'string') {
-            return linkifier(children, {target, key}, renderer);
+    linkify(node, props) {
+        if (typeof node === 'string') {
+            return linkifier(node, props);
         }
-        if (Array.isArray(children)) {
-            return children.map(child => this.linkify(child, {target, key}));
+        if (Array.isArray(node)) {
+            return node.map(n => this.linkify(n, props));
         }
-        if (children && IGNORED_TYPES.indexOf[children.type] >= 0) {
-            return children;
+        if (node && IGNORED_TYPES.indexOf(node.type) >= 0) {
+            return node;
         }
-        if (React.isValidElement(children)) {
+        if (React.isValidElement(node)) {
             return React.cloneElement(
-                children,
-                {key: keyBase + '-' + (++this.keyIndex)},
-                this.linkify(children.props.children, {target, key})
+                node,
+                {key: getKey(++this.keyIndex)},
+                this.linkify(node.props.children, props)
             );
         }
-        return null;
+        return node;
     }
 
     render() {
-        this.keyIndex = 0;
-        const {children, target, keyBase, wrap = 'span', renderer, ...props} = this.props;
-        return React.createElement(wrap, props, ...this.linkify(React.Children.toArray(children), {target, key: keyBase, renderer}));
+        const {children, ...props} = this.props;
+        if (React.Children.count(children) === 0) {
+            return null;
+        }
+
+        const result = this.linkify(React.Children.toArray(children), props);
+
+        if (result.length === 1 && React.isValidElement(result[0])) {
+            return result[0];
+        }
+        return React.createElement('span', {}, ...result);
     }
 }
 
