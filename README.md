@@ -1,13 +1,21 @@
-# react-linkifier [![Build Status](https://travis-ci.org/pladaria/react-linkifier.svg)](https://travis-ci.org/pladaria/react-linkifier)
+<p align="center">
+    <img src="http://cdn.jsdelivr.net/emojione/assets/svg/2693.svg" width=250 />
+    <h1 align="center">react-linkifier</h1>
+    <p align="center">Tiny React library to create links from text</p>
+    <p align="center"><a href="https://travis-ci.org/pladaria/react-linkifier"><img src="https://travis-ci.org/pladaria/react-linkifier.svg"></p></a>
+</p>
 
-Tiny React library to extract URLs from a string and convert them to clickable links.
-It will return an array of React components (anchors for links and spans por regular text).
+## Features
 
 - Very small (~2KB minified and gzipped)
 - Use it as function or component
 - Works great with complex URLs and handles many corner cases
 - Allows custom props to be applied to &lt;a&gt; elements
-- Automatically prepends `http://` to the href (or `mailto:` for emails)
+- Automatically prepends `http://` to the href or `mailto:` for emails
+
+## Live demo
+
+[Demo](https://runkit.com/pladaria/react-linkifier-demo)
 
 ## Install
 
@@ -151,3 +159,7 @@ const MyComponent = () => (
 ## License
 
 MIT
+
+## Credits
+
+Artwork by [emojione.com](emojione.com)
