@@ -8,6 +8,7 @@
 ## Features
 
 - Very small (~2KB minified and gzipped)
+- Zero external dependencies
 - Use it as function or component
 - Works great with complex URLs and handles many corner cases
 - Allows custom props to be applied to &lt;a&gt; elements
