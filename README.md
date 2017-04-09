@@ -76,7 +76,9 @@ const MyComponent = () => (
 );
 
 // Render result:
-// <div><a target=\"_blank\" class=\"my-class\" href=\"http://www.example.org\">www.example.org</a></div>
+// <div>
+//     <a target=\"_blank\" class=\"my-class\" href=\"http://www.example.org\">www.example.org</a>
+// </div>
 ```
 
 #### With custom renderer
