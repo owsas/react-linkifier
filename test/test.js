@@ -141,6 +141,18 @@ test('Linkifier component', t => {
             '',
         ],
         [
+            'No children',
+            undefined,
+            {},
+            '',
+        ],
+        [
+            'Numeric child',
+            123,
+            {},
+            '<span>123</span>',
+        ],
+        [
             'Not wrapped if not needed',
             <span>http://example.org</span>,
             {},
@@ -193,6 +205,18 @@ test('Linkifier component', t => {
             <div>www.example.org</div>,
             {renderer: RedLink},
             '<div><a href=\"http://www.example.org\" style=\"color:red;\">www.example.org</a></div>',
+        ],
+        [
+            'README example - ignore',
+            <div>
+                <pre>
+                    http://example.org
+                </pre>
+                <a href="http://example.org">example</a>
+                <button>http://example.org</button>
+            </div>,
+            {ignore: [...Linkifier.DEFAULT_IGNORED, 'pre']},
+            '<div><pre>http://example.org</pre><a href=\"http://example.org\">example</a><button>http://example.org</button></div>',
         ],
     ];
 

@@ -105,6 +105,26 @@ const MyComponent = () => (
 // </div>
 ```
 
+#### Ignore elements
+
+Use the `ignore` prop to skip some children. By default ignores `a` and `button`
+
+```javascript
+const ignore = [...Linkifier.DEFAULT_IGNORE, 'pre'];
+
+const MyComponent = () => (
+    <Linkifier ignore={ignore}>
+        <pre>
+            http://example.org
+        </pre>
+        <a href="http://example.org">example</a>
+        <button>http://example.org</button>
+    </Linkifier>
+);
+
+// None of these urls will be linkified
+```
+
 ### As function
 
 ```javascript
@@ -157,6 +177,7 @@ const MyComponent = () => (
 
 - `protocol`: this protocol will be used if the protocol part is missing
 - `renderer`: pass a component to use a custom link renderer, defaults to `a`.
+- `ignore`: list of elements to ignore (defaults to `['a', 'button']`)
 - Rest of properties of the options object (eg: `style`, `className`) or props of the `Linkifier` component are passed as props to the link element
 
 ## License
