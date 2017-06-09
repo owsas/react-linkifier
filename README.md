@@ -110,7 +110,7 @@ const MyComponent = () => (
 Use the `ignore` prop to skip some children. By default ignores `a` and `button`
 
 ```javascript
-const ignore = [...Linkifier.DEFAULT_IGNORE, 'pre'];
+const ignore = [...Linkifier.DEFAULT_IGNORED, 'pre'];
 
 const MyComponent = () => (
     <Linkifier ignore={ignore}>
