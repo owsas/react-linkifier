@@ -146,7 +146,8 @@ class Linkifier extends React.Component {
         if (result.length === 1 && React.isValidElement(result[0])) {
             return result[0];
         }
-        return React.createElement('span', {}, ...result);
+
+        return result;
     }
 }
 
